@@ -24,6 +24,17 @@ export const validateReport = (data = {}) => {
     errors.location = 'Lokasi GPS tidak terdeteksi atau tidak valid';
   }
 
+  // Validasi Deskripsi
+  if (!data.description || data.description.trim().length === 0) {
+    errors.description = 'Deskripsi laporan wajib diisi';
+  } else if (data.description.trim().length < 10) {
+    errors.description = 'Deskripsi minimal 10 karakter';
+  }
+
+  // Validasi Judul (Opsional, tapi jika diisi max 100 karakter)
+  if (data.title && data.title.length > 100) {
+    errors.title = 'Judul maksimal 100 karakter';
+  }
 
   return {
     isValid: Object.keys(errors).length === 0,
