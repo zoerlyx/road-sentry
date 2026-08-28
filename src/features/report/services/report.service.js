@@ -55,3 +55,48 @@ export const reportService = {
       throw error;
     }
   },
+
+  // 3. Ambil Statistik Dashboard Admin (GET /api/reports/stats)
+  getStats: async () => {
+    try {
+      const response = await api.get('/reports/stats');
+      return response.data;
+    } catch (error) {
+      console.error('Error Get Stats:', error.response?.data || error.message);
+      throw error;
+    }
+  },
+
+  // 4. Ambil Data Peta GIS (GET /api/reports/map)
+  getMapReports: async () => {
+    try {
+      const response = await api.get('/reports/map');
+      return response.data;
+    } catch (error) {
+      console.error('Error Get Map Reports:', error.response?.data || error.message);
+      throw error;
+    }
+  },
+
+  // 5. Ambil Detail Laporan Berdasarkan ID (GET /api/reports/:id)
+  getReportById: async (reportId) => {
+    try {
+      const response = await api.get(`/reports/${reportId}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error Get Report By ID:', error.response?.data || error.message);
+      throw error;
+    }
+  },
+
+  // 6. Update Status Laporan (PUT /api/reports/:id/status)
+  updateReportStatus: async (reportId, newStatus) => {
+    try {
+      const response = await api.put(`/reports/${reportId}/status`, {
+        status: newStatus,
+      });
+
+      return response.data;
+    } 
+  }
+};
