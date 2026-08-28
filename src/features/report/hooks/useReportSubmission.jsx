@@ -16,4 +16,38 @@ export const useReportSubmission = () => {
     setValidationErrors({});
     setIsSuccess(false);
 
+    // 1. Client-side Validation
+    if (typeof validateReport === 'function') {
+      const validation = validateReport(data);
+      if (!validation.isValid) {
+        setValidationErrors(validation.errors || {});
+        const firstErrorMsg =
+          Object.values(validation.errors || {})[0] || 'Data laporan tidak valid';
+        
+        setError(firstErrorMsg);
+        setIsSubmitting(false);
+
+        const valError = new Error(firstErrorMsg);
+        options.onError?.(valError);
+        throw valError;
+      }
+    }
+
+  const resetState = useCallback(() => {
+    setError(null);
+    setErrorType(null);
+    setValidationErrors({});
+    setIsSuccess(false);
+    setIsSubmitting(false);
+  }, []);
+
+  return {
+    submitReport,
+    isSubmitting,
+    error,
+    errorType,
+    validationErrors,
+    isSuccess,
+    resetState
+  };
 };
