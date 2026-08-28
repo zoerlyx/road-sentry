@@ -33,6 +33,25 @@ export const useReportSubmission = () => {
       }
     }
 
+    // 2. Kirim ke Service
+    try {
+      const response = await reportService.submitReport(data);
+      setIsSuccess(true);
+      options.onSuccess?.(response);
+      return response;
+    } catch (err) {
+      const errorMessage = err.message || 'Gagal mengirim laporan';
+      const type = err.error_type || 'UNKNOWN_ERROR';
+
+      setError(errorMessage);
+      setErrorType(type);
+      options.onError?.(err);
+      throw err;
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, []);
+
   const resetState = useCallback(() => {
     setError(null);
     setErrorType(null);
