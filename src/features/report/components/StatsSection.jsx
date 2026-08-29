@@ -78,11 +78,39 @@ export const StatsSection = ({ stats, animated = true, isLoading = false }) => {
               className="stat-card"
               onMouseMove={(e) => handleMouseMove(stat.key, e)}
               onMouseLeave={() => handleMouseLeave(stat.key)}
-              
+              style={{
+                background: 'rgba(28, 28, 30, 0.65)',
+                backdropFilter: 'blur(30px) saturate(190%)',
+                WebkitBackdropFilter: 'blur(30px) saturate(190%)',
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.12)',
+                boxShadow: '0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+                padding: '28px 28px 24px 28px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                position: 'relative',
+                overflow: 'hidden',
+                cursor: 'pointer',
+                willChange: 'transform',
+                boxSizing: 'border-box',
+                minHeight: '160px',
+                ...currentTilt
+              }}
             >
               {/* Glow Accent */}
               <div
-                
+                style={{
+                  position: 'absolute',
+                  top: '-25px',
+                  left: '-25px',
+                  width: '110px',
+                  height: '110px',
+                  borderRadius: '50%',
+                  background: stat.glow,
+                  filter: 'blur(32px)',
+                  pointerEvents: 'none'
+                }}
               />
 
               {/* Card Header Row */}
@@ -120,11 +148,27 @@ export const StatsSection = ({ stats, animated = true, isLoading = false }) => {
 
               {/* Stat Number / Skeleton Loader */}
               <div
-                
+                className="stat-number"
+                style={{
+                  fontSize: 'clamp(40px, 4.2vw, 56px)',
+                  fontWeight: 700,
+                  color: '#f5f5f7',
+                  letterSpacing: '-0.035em',
+                  lineHeight: 1,
+                  marginBottom: '12px',
+                  zIndex: 1
+                }}
               >
                 {isLoading ? (
                   <span
-                    
+                    style={{
+                      display: 'inline-block',
+                      width: '60%',
+                      height: '48px',
+                      borderRadius: '8px',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                      animation: 'pulse 1.5s infinite ease-in-out'
+                    }}
                   />
                 ) : hasValue ? (
                   animated ? (
