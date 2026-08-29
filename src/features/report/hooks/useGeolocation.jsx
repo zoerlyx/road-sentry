@@ -4,6 +4,12 @@ import { useState, useEffect, useCallback } from 'react';
 
 export const useGeolocation = () => {
 
+  const [coords, setCoords] = useState({ lat: null, lng: null });
+
+  const [loading, setLoading] = useState(true);
+
+  const [error, setError] = useState(null);
+
 
 
   const getLocation = useCallback(() => {
@@ -57,6 +63,12 @@ export const useGeolocation = () => {
   }, []);
 
 
+
+  useEffect(() => {
+
+    getLocation();
+
+  }, [getLocation]);
 
 
 
