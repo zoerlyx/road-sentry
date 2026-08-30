@@ -324,6 +324,563 @@ export const ReportFormCard = ({ onSubmit, isSubmitting }) => {
   );
 
   return (
-    
+    <div
+      ref={wrapperRef}
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        padding: '20px',
+        paddingBottom: '96px',
+        fontFamily:
+          '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
+      }}
+    >
+      <div
+        ref={cardRef}
+        style={{
+          width: '100%',
+          maxWidth: '1000px',
+          background: 'rgba(28, 28, 30, 0.65)',
+          backdropFilter: 'blur(25px) saturate(190%)',
+          WebkitBackdropFilter: 'blur(25px) saturate(190%)',
+          borderRadius: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          boxShadow:
+            '0 20px 50px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+          overflow: 'hidden',
+          color: '#f5f5f7',
+        }}
+      >
+        {/* Header macOS Dark Glass Window */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            padding: '16px 20px',
+            background: 'rgba(255, 255, 255, 0.03)',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#FF5F56' }} />
+          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#FFBD2E' }} />
+          <div style={{ width: '12px', height: '12px', borderRadius: '50%', backgroundColor: '#27C93F' }} />
+          <h2
+            style={{
+              margin: '0 0 0 12px',
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#f5f5f7',
+              letterSpacing: '-0.01em',
+            }}
+          >
+            Form Pelaporan Jalan Rusak
+          </h2>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="card-body"
+          noValidate
+          style={{
+            padding: '24px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '18px',
+          }}
+        >
+          {/* Input Judul */}
+          <input
+            type="text"
+            placeholder="Judul laporan"
+            value={formData.title}
+            onChange={(e) => setFormData((prev) => ({ ...prev, title: e.target.value }))}
+            style={{
+              width: '100%',
+              padding: '12px 16px',
+              borderRadius: '12px',
+              background: 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              fontSize: '14px',
+              color: '#ffffff',
+              outline: 'none',
+              boxSizing: 'border-box',
+            }}
+          />
+
+          {/* Textarea Deskripsi */}
+          <div>
+            <textarea
+              className={`textarea-field ${errors.description ? 'input-error' : ''}`}
+              placeholder="Detail lokasi / ciri kerusakan"
+              value={formData.description}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, description: e.target.value }))
+              }
+              rows={3}
+              style={{
+                width: '100%',
+                padding: '12px 16px',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.06)',
+                border: errors.description
+                  ? '1px solid #FF453A'
+                  : '1px solid rgba(255, 255, 255, 0.12)',
+                fontSize: '14px',
+                color: '#ffffff',
+                outline: 'none',
+                resize: 'none',
+                boxSizing: 'border-box',
+              }}
+            />
+            {errors.description && (
+              <div
+                className="error-message"
+                style={{ color: '#FF453A', fontSize: '12px', marginTop: '4px', fontWeight: 500 }}
+              >
+                {errors.description}
+              </div>
+            )}
+          </div>
+
+          {/* Upload Area */}
+          <div>
+            <div
+              className={`upload-area ${isDragging ? 'dragging' : ''}`}
+              onClick={!imagePreview ? () => fileInputRef.current?.click() : undefined}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+              style={{
+                cursor: imagePreview ? 'default' : 'pointer',
+                border: isDragging
+                  ? '2px dashed #0A84FF'
+                  : errors.image
+                  ? '1px dashed #FF453A'
+                  : '1px dashed rgba(255, 255, 255, 0.2)',
+                borderRadius: '16px',
+                padding: '20px',
+                textAlign: 'center',
+                background: isDragging ? 'rgba(10, 132, 255, 0.12)' : 'rgba(255, 255, 255, 0.03)',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                transition: 'all 0.2s ease',
+              }}
+            >
+              {imagePreview ? (
+                <>
+                  <div className="image-preview-wrapper" style={{ position: 'relative', display: 'inline-block' }}>
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      className="image-preview-img"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShowPreviewModal(true);
+                      }}
+                      style={{
+                        width: '100px',
+                        height: '100px',
+                        objectFit: 'cover',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 16px rgba(0, 0, 0, 0.4)',
+                        cursor: 'pointer',
+                        border: '1px solid rgba(255, 255, 255, 0.15)',
+                      }}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleRemoveImage}
+                      className="btn-remove-image"
+                      aria-label="Hapus foto"
+                      style={{
+                        position: 'absolute',
+                        top: '-8px',
+                        right: '-8px',
+                        width: '26px',
+                        height: '26px',
+                        borderRadius: '50%',
+                        background: 'rgba(255, 69, 58, 0.9)',
+                        color: '#fff',
+                        border: 'none',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        cursor: 'pointer',
+                        fontSize: '12px',
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                  <p style={{ margin: '6px 0 0', fontSize: '13px', color: '#f5f5f7', fontWeight: 500 }}>
+                    Foto siap diupload · klik foto untuk preview
+                  </p>
+                  <span
+                    style={{ fontSize: '12px', color: '#0A84FF', cursor: 'pointer', fontWeight: 500 }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      fileInputRef.current?.click();
+                    }}
+                  >
+                    Ganti foto
+                  </span>
+                </>
+              ) : (
+                <>
+                  <FaCloudUploadAlt style={{ fontSize: '32px', color: '#0A84FF', marginBottom: '4px' }} />
+                  <p style={{ margin: 0, fontSize: '14px', fontWeight: 600, color: '#f5f5f7' }}>
+                    Upload foto jalan rusak
+                  </p>
+                  <span style={{ fontSize: '12px', color: '#8e8e93' }}>
+                    Tarik & lepas foto di sini atau klik untuk mencari · JPG, PNG maks. 5MB
+                  </span>
+                </>
+              )}
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept="image/*"
+                className="hidden-input"
+                onChange={handleImageChange}
+                onClick={(e) => e.stopPropagation()}
+                style={{ display: 'none' }}
+              />
+            </div>
+            {errors.image && (
+              <div className="error-message" style={{ color: '#FF453A', fontSize: '12px', marginTop: '6px', fontWeight: 500 }}>
+                {errors.image}
+              </div>
+            )}
+          </div>
+
+          {/* Segmented Control */}
+          <div
+            className="location-mode-tabs"
+            style={{
+              display: 'flex',
+              background: 'rgba(0, 0, 0, 0.3)',
+              padding: '3px',
+              borderRadius: '12px',
+              border: '1px solid rgba(255, 255, 255, 0.05)',
+              gap: '4px',
+            }}
+          >
+            <button
+              type="button"
+              className={`loc-tab ${locationMode === 'gps' ? 'active' : ''}`}
+              onClick={() => setLocationMode('gps')}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '9px',
+                border: 'none',
+                background: locationMode === 'gps' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                color: locationMode === 'gps' ? '#ffffff' : '#8e8e93',
+                boxShadow: locationMode === 'gps' ? '0 2px 8px rgba(0,0,0,0.3)' : 'none',
+                fontWeight: 500,
+                fontSize: '13px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                cursor: 'pointer',
+              }}
+            >
+              <FaMapMarkerAlt /> GPS Otomatis
+            </button>
+            <button
+              type="button"
+              className={`loc-tab ${locationMode === 'manual' ? 'active' : ''}`}
+              onClick={() => setLocationMode('manual')}
+              style={{
+                flex: 1,
+                padding: '8px',
+                borderRadius: '9px',
+                border: 'none',
+                background: locationMode === 'manual' ? 'rgba(255, 255, 255, 0.12)' : 'transparent',
+                color: locationMode === 'manual' ? '#ffffff' : '#8e8e93',
+                boxShadow: locationMode === 'manual' ? '0 2px 8px rgba(0,0,0,0.3)' : 'none',
+                fontWeight: 500,
+                fontSize: '13px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: '6px',
+                cursor: 'pointer',
+              }}
+            >
+              <FaKeyboard /> Cari Alamat
+            </button>
+          </div>
+
+          {locationMode === 'gps' && (
+            <div
+              className="gps-bar"
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                padding: '10px 14px',
+                borderRadius: '12px',
+                background: 'rgba(255, 255, 255, 0.04)',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                fontSize: '13px',
+                color: '#f5f5f7',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span>
+                  <FaMapMarkerAlt style={{ marginRight: '6px', color: '#0A84FF' }} />
+                  GPS Auto-detect:
+                  <strong style={{ marginLeft: '4px', fontWeight: 600, color: '#ffffff' }}>
+                    {gpsLoading
+                      ? ' Mendeteksi...'
+                      : gpsError
+                      ? ' Gagal'
+                      : coords?.lat && coords?.lng
+                      ? ` ${coords.lat.toFixed(6)}, ${coords.lng.toFixed(6)}`
+                      : ' Tidak tersedia'}
+                  </strong>
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={getLocation}
+                style={{
+                  background: 'none',
+                  border: 'none',
+                  color: '#0A84FF',
+                  cursor: 'pointer',
+                  fontSize: '13px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <FaSyncAlt />
+              </button>
+            </div>
+          )}
+
+          {locationMode === 'manual' && (
+            <div className="address-search-wrapper" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="address-input-row" style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                <input
+                  type="text"
+                  placeholder="Ketik nama jalan..."
+                  value={addressQuery}
+                  onChange={handleAddressChange}
+                  autoComplete="off"
+                  style={{
+                    width: '100%',
+                    padding: '12px 16px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.06)',
+                    border: '1px solid rgba(255, 255, 255, 0.12)',
+                    fontSize: '14px',
+                    color: '#ffffff',
+                    outline: 'none',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                {addressLoading && (
+                  <FaSpinner
+                    className="animate-spin"
+                    style={{ position: 'absolute', right: '14px', color: '#8e8e93' }}
+                  />
+                )}
+              </div>
+              {addressResults.length > 0 && (
+                <ul
+                  style={{
+                    listStyle: 'none',
+                    margin: 0,
+                    padding: '6px',
+                    borderRadius: '12px',
+                    background: 'rgba(38, 38, 41, 0.95)',
+                    backdropFilter: 'blur(20px)',
+                    border: '1px solid rgba(255, 255, 255, 0.15)',
+                    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.5)',
+                  }}
+                >
+                  {addressResults.map((r, i) => (
+                    <li
+                      key={i}
+                      onClick={() => handleSelectAddress(r)}
+                      style={{
+                        padding: '10px 12px',
+                        borderRadius: '8px',
+                        fontSize: '13px',
+                        color: '#f5f5f7',
+                        cursor: 'pointer',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                      }}
+                    >
+                      <FaMapMarkerAlt style={{ color: '#0A84FF', flexShrink: 0 }} />
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {r.display_name}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {manualCoords.lat && (
+                <div
+                  style={{
+                    marginTop: '0.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '8px',
+                    padding: '10px 14px',
+                    borderRadius: '12px',
+                    background: 'rgba(255, 255, 255, 0.04)',
+                    border: '1px solid rgba(255, 255, 255, 0.08)',
+                    fontSize: '13px',
+                    color: '#f5f5f7',
+                  }}
+                >
+                  <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#0A84FF' }} />
+                  <span>
+                    Lokasi:{' '}
+                    <strong style={{ fontWeight: 600, color: '#ffffff' }}>
+                      {manualCoords.lat?.toFixed(6)}, {manualCoords.lng?.toFixed(6)}
+                    </strong>
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+
+          {errors.location && (
+            <div style={{ color: '#FF453A', fontSize: '12px', marginTop: '-6px', fontWeight: 500 }}>
+              {errors.location}
+            </div>
+          )}
+
+          <UserMapPreview
+            lat={activeCoords.lat}
+            lng={activeCoords.lng}
+            submitted={submitted}
+            onLocationChange={handleMapLocationChange}
+          />
+
+          {/* Display Indicator Alamat Terdeteksi */}
+          {resolvedAddress && (
+            <div
+              style={{
+                fontSize: '12px',
+                color: '#8e8e93',
+                padding: '6px 10px',
+                borderRadius: '8px',
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.06)',
+              }}
+            >
+              📍 Alamat terdeteksi: <span style={{ color: '#f5f5f7' }}>{resolvedAddress}</span>
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            disabled={isSubmitting || (locationMode === 'gps' && gpsLoading)}
+            style={{
+              marginTop: '10px',
+              marginBottom: '10px',
+              padding: '14px',
+              borderRadius: '14px',
+              border: 'none',
+              background: '#0A84FF',
+              color: '#ffffff',
+              fontSize: '15px',
+              fontWeight: 600,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              cursor: isSubmitting || (locationMode === 'gps' && gpsLoading) ? 'not-allowed' : 'pointer',
+              opacity: isSubmitting || (locationMode === 'gps' && gpsLoading) ? 0.6 : 1,
+              boxShadow: '0 4px 16px rgba(10, 132, 255, 0.35)',
+            }}
+          >
+            {isSubmitting ? (
+              <>
+                <FaSpinner className="animate-spin" /> Memproses...
+              </>
+            ) : (
+              <>
+                <FaPaperPlane /> Kirim Laporan
+              </>
+            )}
+          </button>
+        </form>
+      </div>
+
+      {/* MODAL PREVIEW IMAGE */}
+      {showPreviewModal &&
+        imagePreview &&
+        createPortal(
+          <div
+            onClick={() => setShowPreviewModal(false)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 9999,
+              background: 'rgba(0, 0, 0, 0.75)',
+              backdropFilter: 'blur(20px)',
+              WebkitBackdropFilter: 'blur(20px)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '24px',
+            }}
+          >
+            <div style={{ position: 'relative', maxWidth: '90vw', maxHeight: '90vh' }}>
+              <img
+                src={imagePreview}
+                alt="Full Preview"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  maxHeight: '80vh',
+                  objectFit: 'contain',
+                  borderRadius: '16px',
+                  boxShadow: '0 25px 50px rgba(0, 0, 0, 0.8)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                }}
+              />
+              <button
+                type="button"
+                onClick={() => setShowPreviewModal(false)}
+                style={{
+                  position: 'absolute',
+                  top: '-16px',
+                  right: '-16px',
+                  width: '36px',
+                  height: '36px',
+                  borderRadius: '50%',
+                  background: 'rgba(44, 44, 46, 0.9)',
+                  border: '1px solid rgba(255, 255, 255, 0.2)',
+                  color: '#ffffff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                <FaTimes />
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
+
+    </div>
   );
 };
