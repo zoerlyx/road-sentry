@@ -881,6 +881,117 @@ export const ReportFormCard = ({ onSubmit, isSubmitting }) => {
           document.body
         )}
 
+      {/* APPLE DARK MODE FEEDBACK MODAL (SUCCESS / REJECTED / ERROR) */}
+      {submitResult &&
+        createPortal(
+          <div
+            onClick={() => setSubmitResult(null)}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 10000,
+              background: 'rgba(0, 0, 0, 0.65)',
+              backdropFilter: 'blur(30px) saturate(180%)',
+              WebkitBackdropFilter: 'blur(30px) saturate(180%)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '20px',
+            }}
+          >
+            <div
+              onClick={(e) => e.stopPropagation()}
+              style={{
+                width: '100%',
+                maxWidth: '420px',
+                background: 'rgba(32, 32, 36, 0.75)',
+                backdropFilter: 'blur(40px)',
+                WebkitBackdropFilter: 'blur(40px)',
+                borderRadius: '24px',
+                border: '1px solid rgba(255, 255, 255, 0.15)',
+                boxShadow: '0 30px 60px rgba(0,0,0,0.6)',
+                padding: '28px 24px',
+                textAlign: 'center',
+                color: '#f5f5f7',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: '14px',
+              }}
+            >
+              {submitResult.type === 'success' && (
+                <div
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    background: 'rgba(48, 209, 88, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#30D158',
+                    fontSize: '32px',
+                    marginBottom: '4px',
+                  }}
+                >
+                  <FaCheckCircle />
+                </div>
+              )}
+
+              {(submitResult.type === 'rejected' || submitResult.type === 'error') && (
+                <div
+                  style={{
+                    width: '64px',
+                    height: '64px',
+                    borderRadius: '50%',
+                    background: 'rgba(255, 69, 58, 0.15)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#FF453A',
+                    fontSize: '32px',
+                    marginBottom: '4px',
+                  }}
+                >
+                  <FaExclamationTriangle />
+                </div>
+              )}
+
+              <h3 style={{ margin: 0, fontSize: '19px', fontWeight: 600, letterSpacing: '-0.02em' }}>
+                {submitResult.title}
+              </h3>
+
+              <p style={{ margin: 0, fontSize: '14px', color: '#a1a1a6', lineHeight: 1.45 }}>
+                {submitResult.message}
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setSubmitResult(null)}
+                style={{
+                  marginTop: '12px',
+                  width: '100%',
+                  padding: '12px',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  background:
+                    submitResult.type === 'success'
+                      ? 'rgba(48, 209, 88, 0.2)'
+                      : 'rgba(255, 255, 255, 0.1)',
+                  color: submitResult.type === 'success' ? '#30D158' : '#ffffff',
+                  fontSize: '14px',
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(10px)',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                Tutup
+              </button>
+            </div>
+          </div>,
+          document.body
+        )}
     </div>
   );
 };
