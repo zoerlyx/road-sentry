@@ -96,7 +96,20 @@ export const UserMapPreview = ({ lat, lng, submitted = false }) => {
       )}
 
       <MapContainer
-        >
+        center={center}
+        zoom={hasLocation ? 16 : 12}
+        style={{ height: '300px', width: '100%', borderRadius: '12px' }}
+        zoomControl={false}
+        dragging={false}
+        scrollWheelZoom={false}
+        doubleClickZoom={false}
+        attributionControl={false}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+
+        <MapMarker position={hasLocation ? [lat, lng] : null} />
+
+        <MapController lat={lat} lng={lng} defaultCenter={defaultCenter} />
       </MapContainer>
     </div>
   );
