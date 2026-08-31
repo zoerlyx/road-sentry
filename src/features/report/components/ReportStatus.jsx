@@ -449,7 +449,15 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
                 </div>
               </div>
               <div
-                
+                style={{
+                  padding: '16px',
+                  borderRadius: '16px',
+                  background: priorityScore >= 80 ? 'rgba(255, 69, 58, 0.08)' : 'rgba(10, 132, 255, 0.08)',
+                  border: priorityScore >= 80 ? '1px solid rgba(255, 69, 58, 0.25)' : '1px solid rgba(10, 132, 255, 0.25)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '14px'
+                }}
               >
               <div
                   style={{
@@ -481,7 +489,15 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
           {/* AI Recommendation Banner */}
           {currentStatus !== 'rejected' && (
             <div
-             
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '12px',
+                padding: '14px 18px',
+                borderRadius: '14px',
+                background: 'rgba(10, 132, 255, 0.08)',
+                border: '1px solid rgba(10, 132, 255, 0.25)'
+              }}
             >
               <BsLightbulb style={{ color: '#0A84FF', fontSize: '18px', marginTop: '2px', flexShrink: 0 }} />
               <div>
@@ -521,7 +537,17 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
                       FOTO ASLI
                     </div>
                     <div
-                      >
+                      style={{
+                        position: 'relative',
+                        borderRadius: '14px',
+                        overflow: 'hidden',
+                        background: 'rgba(0, 0, 0, 0.3)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        aspectRatio: '16/10',
+                        cursor: 'pointer'
+                      }}
+                      onClick={() => setLightbox({ src: getImageUrl(displayOriginalImg), alt: 'Foto asli' })}
+                    >
                       <img
                         src={getImageUrl(displayOriginalImg)}
                         alt="Foto asli"
@@ -551,14 +577,32 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
                     DETEKSI AI (BOUNDING BOX)
                   </div>
                   <div
-                    >
+                    style={{
+                      position: 'relative',
+                      borderRadius: '14px',
+                      overflow: 'hidden',
+                      background: 'rgba(0, 0, 0, 0.3)',
+                      border: '1px solid rgba(10, 132, 255, 0.3)',
+                      aspectRatio: '16/10',
+                      cursor: 'pointer'
+                    }}
+                    onClick={() => setLightbox({ src: getImageUrl(displayAnnotatedImg), alt: 'Hasil deteksi AI' })}
+                  >
                     <img
                       src={getImageUrl(displayAnnotatedImg)}
                       alt="Hasil deteksi AI"
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                     <div
-                     
+                      style={{
+                        position: 'absolute',
+                        bottom: '8px',
+                        right: '8px',
+                        background: 'rgba(0, 0, 0, 0.65)',
+                        borderRadius: '8px',
+                        padding: '6px',
+                        color: '#ffffff'
+                      }}
                     >
                       <FiMaximize2 style={{ fontSize: '12px' }} />
                     </div>
@@ -566,7 +610,14 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
                 </div>
               </div>
             <div
-                
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  fontSize: '11px',
+                  color: '#8e8e93',
+                  marginTop: '4px'
+                }}
               >
                 <FiInfo style={{ color: '#0A84FF' }} />
                 <span>Kotak pada gambar menunjukkan area kerusakan yang terdeteksi secara otomatis oleh model AI.</span>
@@ -576,7 +627,15 @@ export default function ReportStatus({ reportId, originalImage, annotatedImage, 
       {/* Rejection Guidance Card */}
           {currentStatus === 'rejected' && (
             <div
-              
+              style={{
+                padding: '20px',
+                borderRadius: '16px',
+                background: 'rgba(255, 69, 58, 0.08)',
+                border: '1px solid rgba(255, 69, 58, 0.25)',
+                display: 'flex',
+                alignItems: 'flex-start',
+                gap: '14px'
+              }}
             >
               <BsLightbulb style={{ color: '#FF453A', fontSize: '24px', flexShrink: 0, marginTop: '2px' }} />
               <div>
