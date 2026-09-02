@@ -18,6 +18,13 @@ router.get('/stats', reportController.getReportStats);
 router.get('/map', reportController.getMapReports);
 router.get('/', reportController.getAllReports);
 
+// =========================================================================
+// 2. ENDPOINT MUTASI / POST
+// =========================================================================
+router.post('/', upload.single('image'), reportController.createReport);
 
+
+
+router.put('/:id/status', reportController.updateReportStatus);
 
 module.exports = router;
