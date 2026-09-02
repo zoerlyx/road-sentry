@@ -1,5 +1,6 @@
 const axios = require('axios');
-
+const FormData = require('form-data');
+const path = require('path');
 const fs = require('fs');
 const db = require('../db');
 
@@ -13,6 +14,12 @@ const cleanupFile = (filePath) => {
   }
 };
 
+/**
+ * Pemetaan Skor Prioritas AI (0-100) ke kolom priority database:
+ * >= 80: 'urgent'
+ * >= 40: 'medium'
+ * < 40: 'low'
+ */
 const mapPriorityScoreToEnum = (score) => {
   const numScore = parseFloat(score);
   if (isNaN(numScore)) return 'medium';
@@ -65,7 +72,26 @@ exports.createReport = async (req, res) => {
       });
     }
 
-    
+    const { summary, detectionResult, annotatedImageUrl } = aiResponse.data;
+    const parsedLat = (latitude && !isNaN(parseFloat(latitude))) ? parseFloat(latitude) : null;
+    const parsedLng = (longitude && !isNaN(parseFloat(longitude))) ? parseFloat(longitude) : null;
+
+    // Aturan Pemetaan Data:
+    // 1. Ekstrak ai_detection_result.summary.status_description ke kolom road_condition
+    const roadCondition = summary?.status_description || 'Rusak Sedang';
+
+    // 2. Petakan priority_score (0-100) ke kolom priority: >=80 'urgent', >=40 'medium', <40 'low'
+    const priority = mapPriorityScoreToEnum(summary?.priority_score);
+
+    // 3. Status default
+    const reportStatus = 'pending';
+
+    // 4. Susun ai_detection_result lengkap sesuai spesifikasi payload
+    const fullAiDetectionResult = {
+      summary: summary || {},
+      detections: detectionResult?.detections || []
+    };
+
     const query = `
       INSERT INTO reports (
         title, description, report_type, status, image_url, annotated_image_url, 
@@ -257,7 +283,36 @@ exports.getReportStats = async (req, res) => {
     const urgent = urgentRes.rows[0]?.count || 0;
     const highPriority = highPriorityRes.rows[0]?.count || 0;
 
-    
+    return res.status(200).json({
+      success: true,
+      data: {
+        total,
+        total_reports: total,
+        pending,
+        pending_reports: pending,
+        in_progress,
+        resolved,
+        resolved_reports: resolved,
+        completed: resolved,
+        rejected,
+        urgent,
+        urgent_reports: urgent,
+        highPriority,
+        priority: {
+          urgent,
+          high: highPriority
+        }
+      }
+    });
+  } catch (error) {
+    console.error('Error in getReportStats:', error.message);
+    return res.status(500).json({ 
+      success: false, 
+      message: 'Gagal mengambil statistik laporan.',
+      error: error.message 
+    });
+  }
+};
 
 // 4. GET /api/reports/map - Titik Persebaran Lokasi GIS
 exports.getMapReports = async (req, res) => {
