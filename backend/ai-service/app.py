@@ -23,3 +23,19 @@ MAX_FILE_SIZE = 10 * 1024 * 1024  # 10 MB
 ALLOWED_MIME_TYPES = {"image/jpeg", "image/png", "image/webp"}
 RETENTION_HOURS = 24  # Hapus file anotasi yang berumur lebih dari 24 jam
 
+# Lock thread untuk keamanan inference serentak
+inference_lock = threading.Lock()
+
+
+    except Exception as e:
+        print("=== EXCEPTION IN /predict ===")
+        traceback.print_exc()
+        # Menyembunyikan detail error internal dari client
+        return jsonify({
+            "success": False,
+            "message": "Terjadi kesalahan internal pada layanan AI."
+        }), 500
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5001, debug=False, threaded=True)
