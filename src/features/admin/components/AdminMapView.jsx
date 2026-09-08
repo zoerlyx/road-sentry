@@ -59,7 +59,21 @@ export const AdminMapView = ({ reports = [], onSelectReport, onRefresh }) => {
     });
   }, [reports]);
 
+// Filter berdasarkan tingkat prioritas
+const filteredReports = useMemo(() => {
+  if (filterPriority === 'ALL') return validReports;
 
+  return validReports.filter((r) => {
+    const p = (r.priority || '').toUpperCase();
+
+    // Jika filter memilih HIGH, cocokkan juga jika datanya URGENT
+    if (filterPriority === 'HIGH') {
+      return p === 'HIGH' || p === 'URGENT';
+    }
+
+    return p === filterPriority;
+  });
+}, [validReports, filterPriority]);
 
   return (
   
