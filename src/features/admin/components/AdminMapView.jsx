@@ -9,7 +9,24 @@ import {
 } from 'react-icons/fa';
 import 'leaflet/dist/leaflet.css';
 
+// Fix ikon default Leaflet agar ter-render dengan benar
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+  iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+  shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
 
+// Custom SVG Marker Generator untuk prioritas laporan
+const createCustomMarker = (priority, status) => {
+  let color = '#0A84FF'; // Default Blue
+  if (priority === 'HIGH' || priority === 'URGENT' || priority === 'Tinggi') {
+    color = '#FF453A'; // Red
+  } else if (status === 'IN_PROGRESS' || status === 'Diproses') {
+    color = '#FF9F0A'; // Orange
+  } else if (status === 'COMPLETED' || status === 'Selesai') {
+    color = '#30D158'; // Green
+  }
 
   const svgHtml = `
     <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
