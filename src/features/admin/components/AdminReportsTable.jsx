@@ -78,7 +78,48 @@ export const AdminReportsTable = ({ reports = [], loading, onViewReport, onStatu
         );
     };
 
-    
+    if (loading) {
+        return (
+            <div style={{
+                background: 'rgba(28, 28, 30, 0.5)',
+                borderRadius: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '50px 20px',
+                textAlign: 'center',
+                color: '#8e8e93'
+            }}>
+                 <p style={{ margin: 0, fontSize: '14px', color: '#a1a1aa' }}>Memuat data laporan...</p>
+            </div>
+        );
+    }
+
+    if (!reports || reports.length === 0) {
+        return (
+            <div style={{
+                background: 'rgba(28, 28, 30, 0.5)',
+                borderRadius: '16px',
+                border: '1px solid rgba(255, 255, 255, 0.08)',
+                padding: '50px 20px',
+                textAlign: 'center'
+            }}>
+                 <p style={{ margin: 0, fontSize: '14px', color: '#8e8e93', fontWeight: 500 }}>
+                    Tidak ada data laporan ditemukan
+                </p>
+            </div>
+        );
+    }
+
+    return (
+         <div style={{
+            background: 'rgba(20, 20, 22, 0.6)',
+            borderRadius: '16px',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+            overflow: 'auto'
+        }}>
+            
+        </div>
+    );
+};
 
 const thStyle = {
     padding: '14px 16px',
