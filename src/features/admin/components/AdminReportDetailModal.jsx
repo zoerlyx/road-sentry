@@ -602,6 +602,25 @@ export const AdminReportDetailModal = ({ isOpen, report, onClose, onStatusChange
         </div>
       </div>
     </div>
+
+    {lightbox && (
+      <div
+        onClick={() => setLightbox(null)}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 10000,
+          background: 'rgba(0, 0, 0, 0.9)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px',
+          cursor: 'zoom-out'
+        }}
+      >
+        
+      </div>
+    )}
   </>
 );
 };
