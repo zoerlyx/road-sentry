@@ -618,7 +618,11 @@ export const AdminReportDetailModal = ({ isOpen, report, onClose, onStatusChange
           cursor: 'zoom-out'
         }}
       >
-        
+        <img
+          src={lightbox === 'original' ? originalImageUrl : annotatedImageUrl}
+          alt="Fullscreen View"
+          style={{ maxWidth: '92vw', maxHeight: '92vh', objectFit: 'contain', borderRadius: '12px' }}
+        />
       </div>
     )}
   </>
