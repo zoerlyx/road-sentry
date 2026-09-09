@@ -116,7 +116,126 @@ export const AdminReportsTable = ({ reports = [], loading, onViewReport, onStatu
             border: '1px solid rgba(255, 255, 255, 0.08)',
             overflow: 'auto'
         }}>
-            
+            <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', minWidth: '700px' }}>
+                <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.08)', background: 'rgba(255, 255, 255, 0.02)' }}>
+                        <th style={thStyle}>Info</th>
+                        <th style={thStyle}>Lokasi</th>
+                        <th style={thStyle}>Kondisi & Deskripsi</th>
+                        <th style={thStyle}>Prioritas</th>
+                        <th style={thStyle}>Status</th>
+                        <th style={thStyle}>Tanggal</th>
+                        <th style={{ ...thStyle, textAlign: 'center' }}>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {reports.map((report) => {
+                        const id = report.id || report.reportId;
+                        const imageUrl = report.annotated_image_url || report.image_url || report.imageUrl;
+                        const lat = report.latitude ? Number(report.latitude).toFixed(4) : '-';
+                        const lng = report.longitude ? Number(report.longitude).toFixed(4) : '-';
+                        const priority = report.priority || report.priorityLabel || 'medium';
+                        const date = report.created_at || report.submittedAt;
+
+                        return (
+                            <tr
+                                key={id}
+                                style={{
+                                    borderBottom: '1px solid rgba(255, 255, 255, 0.05)',
+                                    transition: 'background 0.15s ease'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255, 255, 255, 0.03)'}
+                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                            >
+                                <td style={tdStyle}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        
+                                        <div>
+                                            <div style={{ fontSize: '10px', color: '#8e8e93', textTransform: 'uppercase', letterSpacing: '0.04em' }}>ID LAPORAN</div>
+                                            <div style={{ fontFamily: 'monospace', fontSize: '13px', fontWeight: 600, color: '#0A84FF' }}>
+                                                #{id}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td style={{ ...tdStyle, fontFamily: 'monospace', fontSize: '12px', color: '#f5f5f7' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        <FaMapMarkerAlt style={{ color: '#0A84FF', fontSize: '12px' }} />
+                                        <span>{lat}, {lng}</span>
+                                    </div>
+                                </td>
+                                <td style={{ ...tdStyle, color: '#f5f5f7', fontSize: '13px', maxWidth: '240px' }}>
+                                    {report.road_condition && (
+                                        <div style={{ fontSize: '11px', color: '#0A84FF', fontWeight: 600, marginBottom: '2px' }}>
+                                            {report.road_condition}
+                                        </div>
+                                    )}
+                                    <span title={report.description} style={{ color: '#a1a1aa', fontSize: '12px' }}>
+                                        {report.description ? (report.description.length > 50 ? `${report.description.substring(0, 50)}...` : report.description) : '-'}
+                                    </span>
+                                </td>
+                                <td style={tdStyle}>{getPriorityBadge(priority)}</td>
+                                <td style={tdStyle}>{getStatusBadge(report.status)}</td>
+                                <td style={{ ...tdStyle, fontSize: '12px', color: '#8e8e93' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                        <FaCalendarAlt style={{ color: '#8e8e93', fontSize: '11px' }} />
+                                        <span>
+                                            {date ? new Date(date).toLocaleDateString('id-ID', {
+                                                day: 'numeric',
+                                                month: 'short',
+                                                year: 'numeric'
+                                            }) : '-'}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style={tdStyle}>
+                                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                        <button
+                                            onClick={() => onViewReport(id)}
+                                            title="Lihat Detail Laporan"
+                                            style={{
+                                                padding: '7px 10px',
+                                                borderRadius: '8px',
+                                                background: 'rgba(10, 132, 255, 0.15)',
+                                                border: '1px solid rgba(10, 132, 255, 0.3)',
+                                                color: '#0A84FF',
+                                                cursor: 'pointer',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                  justifyContent: 'center',
+                                                transition: 'all 0.2s'
+                                            }}
+                                        >
+                                            <FaEye style={{ fontSize: '12px' }} />
+                                        </button>
+                                        <select
+                                            className="status-select"
+                                            value={report.status || 'pending'}
+                                            onChange={(e) => onStatusChange(id, e.target.value)}
+                                            style={{
+                                                padding: '6px 10px',
+                                                borderRadius: '8px',
+                                                fontSize: '11px',
+                                                fontWeight: 600,
+                                                cursor: 'pointer',
+                                                outline: 'none',
+                                                background: 'rgba(255, 255, 255, 0.08)',
+                                                border: '1px solid rgba(255, 255, 255, 0.15)',
+                                                color: '#ffffff'
+                                            }}
+                                        >
+                                            <option value="pending" style={{ background: '#1c1c1e', color: '#fff' }}>Pending</option>
+                                            <option value="in_progress" style={{ background: '#1c1c1e', color: '#0A84FF' }}>Diproses</option>
+                                            <option value="resolved" style={{ background: '#1c1c1e', color: '#30D158' }}>Selesai</option>
+                                            <option value="rejected" style={{ background: '#1c1c1e', color: '#FF453A' }}>Ditolak</option>
+                                        </select>
+                                    </div>
+                                </td>
+                            </tr>
+                        );
+                    })}
+                </tbody>
+            </table>
         </div>
     );
 };
