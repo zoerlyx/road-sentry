@@ -1,7 +1,25 @@
 import { FaImage, FaEye, FaMapMarkerAlt, FaCalendarAlt, FaExclamationTriangle } from 'react-icons/fa';
 
 export const AdminReportsTable = ({ reports = [], loading, onViewReport, onStatusChange }) => {
-    
+    const getPriorityBadge = (priority) => {
+        const p = (priority || 'low').toLowerCase();
+        let bg = 'rgba(48, 209, 88, 0.15)';
+        let color = '#30D158';
+        let label = 'Rendah';
+
+        if (p === 'urgent' || p === 'darurat' || p === 'krusial') {
+            bg = 'rgba(255, 69, 58, 0.2)';
+            color = '#FF453A';
+            label = 'Urgent';
+        } else if (p === 'high' || p === 'tinggi') {
+            bg = 'rgba(255, 69, 58, 0.15)';
+            color = '#FF453A';
+            label = 'Tinggi';
+        } else if (p === 'medium' || p === 'sedang') {
+            bg = 'rgba(255, 159, 10, 0.15)';
+            color = '#FF9F0A';
+            label = 'Sedang';
+        }
 
         return (
             <span style={{
@@ -24,7 +42,44 @@ export const AdminReportsTable = ({ reports = [], loading, onViewReport, onStatu
         );
     };
 
+    const getStatusBadge = (status) => {
+        const s = (status || 'pending').toLowerCase();
+        let bg = 'rgba(255, 159, 10, 0.15)';
+        let color = '#FF9F0A';
+        let label = 'Pending';
+
+        if (s === 'in_progress') {
+            bg = 'rgba(10, 132, 255, 0.15)';
+            color = '#0A84FF';
+            label = 'Diproses';
+        } else if (s === 'resolved' || s === 'completed') {
+            bg = 'rgba(48, 209, 88, 0.15)';
+            color = '#30D158';
+            label = 'Selesai';
+        } else if (s === 'rejected') {
+            bg = 'rgba(255, 69, 58, 0.15)';
+            color = '#FF453A';
+            label = 'Ditolak';
+        }
+
+        return (
+            <span style={{
+                padding: '4px 10px',
+                borderRadius: '8px',
+                fontSize: '11px',
+                fontWeight: 600,
+                 background: bg,
+                color: color,
+                border: `1px solid ${color}33`,
+                display: 'inline-block'
+            }}>
+                {label}
+            </span>
+        );
+    };
+
     
+
 const thStyle = {
     padding: '14px 16px',
     fontSize: '11px',
