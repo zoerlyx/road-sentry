@@ -264,169 +264,41 @@ export const AdminDashboardPage = () => {
 
   // Style Container Glassmorphism
 
-  const sectionContainerStyle = {
+            </button>
 
-    width: '100%',
+          </div>
 
-    background: 'rgba(22, 24, 29, 0.65)',
 
-    backdropFilter: 'blur(24px) saturate(180%)',
 
-    WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+          {/* Filter Bar */}
 
-    borderRadius: '24px',
+          <AdminFilterBar
 
-    border: '1px solid rgba(255, 255, 255, 0.12)',
+            filters={filters}
 
-    boxShadow: '0 20px 40px rgba(0, 0, 0, 0.4)',
+            onFilterChange={updateFilters}
 
-    padding: '20px',
-    
-    paddingBottom :'0px',
-
-    marginBottom: '32px',
-
-    boxSizing: 'border-box'
-
-  };
-
-
-
-  return (
-
-    <div
-
-      style={{
-
-        minHeight: '100vh',
-
-        backgroundColor: '#0a0a0c',
-
-        color: '#f5f5f7',
-
-        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
-
-        display: 'flex',
-
-        flexDirection: 'column'
-
-      }}
-
-    >
-
-      <AdminNavbar onLogout={handleLogout} />
-
-
-
-      {/* Area Konten Utama */}
-
-      <main
-
-        style={{
-
-          flex: 1,
-
-          width: '100%',
-
-          maxWidth: '1200px',
-
-          margin: '0 auto',
-
-          padding: '100px 24px 40px 24px',
-
-          boxSizing: 'border-box'
-
-        }}
-
-      >
-
-        {/* Header Halaman */}
-
-        <div style={{ marginBottom: '36px', textAlign: 'left' }}>
-
-          <h1
-
-            style={{
-
-              fontSize: '32px',
-
-              fontWeight: 700,
-
-              letterSpacing: '-0.025em',
-
-              color: '#ffffff',
-
-              margin: '0 0 8px 0'
-
-            }}
-
-          >
-
-            Dashboard Admin
-
-          </h1>
-
-          <p
-
-            style={{
-
-              fontSize: '16px',
-
-              color: '#a1a1aa',
-
-              margin: 0,
-
-              fontWeight: 400
-
-            }}
-
-          >
-
-            Kelola dan pantau seluruh laporan infrastruktur jalan rusak secara real-time.
-
-          </p>
-
-        </div>
-
-
-
-        {/* Section 1: Kartu Statistik */}
-
-        <section style={{ marginBottom: '32px' }}>
-
-          <AdminStatsCard stats={dashboardStats} />
-
-        </section>
-
-
-
-        {/* Section 2: Laporan Urgent */}
-
-        <section style={sectionContainerStyle}>
-
-          <AdminUrgentReports
-
-            reports={urgentReports}
-
-            onViewReport={handleViewReport}
+            onReset={resetFilters}
 
           />
 
-        </section>
 
 
+          {/* Table Component */}
 
-        {/* Section 3: Peta Lokasi (Map View) */}
+          <AdminReportsTable
 
-        <section style={sectionContainerStyle}>
+            reports={reports}
 
-          <AdminMapView reports={reports} />
+            loading={loading}
 
-        </section>
+            onViewReport={handleViewReport}
+
+            onStatusChange={handleStatusChange}
+
+          />
 
 
-
-       
 
           {/* Pagination */}
 {totalPages > 1 && (
@@ -442,10 +314,66 @@ export const AdminDashboardPage = () => {
     }}
     className="flex-wrap sm:flex-nowrap gap-3"
   >
-   
+    <button
+      disabled={page === 1}
+      onClick={() => changePage(page - 1)}
+      style={{
+        padding: '8px 16px',
+        borderRadius: '10px',
+        backgroundColor: page === 1 ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.08)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        color: page === 1 ? '#48484a' : '#f5f5f7',
+        fontSize: '13px',
+        fontWeight: 500,
+        cursor: page === 1 ? 'not-allowed' : 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      className="flex-1 sm:flex-none text-center order-1 sm:order-none"
+    >
+      Sebelumnya
+    </button>
 
     <>
-  
+  <style>{`
+    @media (max-width: 640px) {
+      .hide-on-mobile {
+        display: none !important;
+      }
+    }
+  `}</style>
+
+  <span 
+    className="hide-on-mobile"
+    style={{ fontSize: '13px', color: '#a1a1aa', fontWeight: 500 }}
+  >
+    Halaman <strong style={{ color: '#f5f5f7' }}>{page}</strong> dari{' '}
+    <strong style={{ color: '#f5f5f7' }}>{totalPages}</strong>
+  </span>
+</>
+
+    <button
+      disabled={page === totalPages}
+      onClick={() => changePage(page + 1)}
+      style={{
+        padding: '8px 16px',
+        borderRadius: '10px',
+        backgroundColor: page === totalPages ? 'rgba(255, 255, 255, 0.03)' : 'rgba(255, 255, 255, 0.08)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
+        color: page === totalPages ? '#48484a' : '#f5f5f7',
+        fontSize: '13px',
+        fontWeight: 500,
+        cursor: page === totalPages ? 'not-allowed' : 'pointer',
+        transition: 'all 0.2s ease'
+      }}
+      className="flex-1 sm:flex-none text-center order-2 sm:order-none"
+    >
+      Selanjutnya
+    </button>
+  </div>
+)}
+
+        </section>
+
       </main>
 
 
