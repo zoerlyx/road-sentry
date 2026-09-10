@@ -294,6 +294,181 @@ export const AdminDashboardPage = () => {
 
   return (
 
+    <div
+
+      style={{
+
+        minHeight: '100vh',
+
+        backgroundColor: '#0a0a0c',
+
+        color: '#f5f5f7',
+
+        fontFamily: '-apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, sans-serif',
+
+        display: 'flex',
+
+        flexDirection: 'column'
+
+      }}
+
+    >
+
+      <AdminNavbar onLogout={handleLogout} />
+
+
+
+      {/* Area Konten Utama */}
+
+      <main
+
+        style={{
+
+          flex: 1,
+
+          width: '100%',
+
+          maxWidth: '1200px',
+
+          margin: '0 auto',
+
+          padding: '100px 24px 40px 24px',
+
+          boxSizing: 'border-box'
+
+        }}
+
+      >
+
+        {/* Header Halaman */}
+
+        <div style={{ marginBottom: '36px', textAlign: 'left' }}>
+
+          <h1
+
+            style={{
+
+              fontSize: '32px',
+
+              fontWeight: 700,
+
+              letterSpacing: '-0.025em',
+
+              color: '#ffffff',
+
+              margin: '0 0 8px 0'
+
+            }}
+
+          >
+
+            Dashboard Admin
+
+          </h1>
+
+          <p
+
+            style={{
+
+              fontSize: '16px',
+
+              color: '#a1a1aa',
+
+              margin: 0,
+
+              fontWeight: 400
+
+            }}
+
+          >
+
+            Kelola dan pantau seluruh laporan infrastruktur jalan rusak secara real-time.
+
+          </p>
+
+        </div>
+
+
+
+        {/* Section 1: Kartu Statistik */}
+
+        <section style={{ marginBottom: '32px' }}>
+
+          <AdminStatsCard stats={dashboardStats} />
+
+        </section>
+
+
+
+        {/* Section 2: Laporan Urgent */}
+
+        <section style={sectionContainerStyle}>
+
+          <AdminUrgentReports
+
+            reports={urgentReports}
+
+            onViewReport={handleViewReport}
+
+          />
+
+        </section>
+
+
+
+        {/* Section 3: Peta Lokasi (Map View) */}
+
+        <section style={sectionContainerStyle}>
+
+          <AdminMapView reports={reports} />
+
+        </section>
+
+
+
+       
+
+          {/* Pagination */}
+{totalPages > 1 && (
+  <div
+    style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginTop: '24px',
+      marginBottom: '24px',
+      paddingTop: '20px',
+      borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+    }}
+    className="flex-wrap sm:flex-nowrap gap-3"
+  >
+   
+
+    <>
+  
+      </main>
+
+
+
+      <Footer />
+
+
+
+      {/* Modal Detail Laporan */}
+
+      <AdminReportDetailModal
+
+        isOpen={isModalOpen}
+
+        report={selectedReport}
+
+        onClose={handleCloseModal}
+
+        onStatusChange={handleStatusChange}
+
+      />
+
+    </div>
 
   );
 
