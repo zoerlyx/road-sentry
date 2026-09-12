@@ -55,4 +55,28 @@ The public can upload photos of damaged roads along with their corresponding GPS
 
 ---
 
+## 💻 Tech Stack
+
+### Frontend
+- **Framework & Runtime**: React 18, Vite 6, React Router DOM v6
+- **Styling**: Tailwind CSS, Apple Dark Glassmorphism Design System (SF Pro typography, backdrop blur)
+- **Mapping & GIS**: Leaflet, React-Leaflet, OpenStreetMap
+- **State & Network**: Axios, React Intersection Observer, Framer Motion
+
+### Backend API
+- **Framework**: Node.js, Express.js (v5)
+- **Database Driver**: pg (Node Postgres Connection Pooler)
+- **File Uploads**: Multer, Form-Data
+
+### AI & Machine Learning
+- **Model**: Ultralytics YOLOv8 Custom Trained (`best.pt`)
+- **Backend Service**: Python 3.10+, Flask, OpenCV Headless, Pillow, PyTorch
+
+### Database & Cloud
+- **Database**: Neon Serverless PostgreSQL
+- **Hosting Target**: Vercel (Frontend), Railway / Render / VPS (Backend & AI)
+
+---
+
+
 ---
