@@ -133,5 +133,105 @@ road-sentry/
 
 ---
 
+## 🚀 System Setup & Installation Guide
+
+### Prerequisites
+- Node.js v18.0 or later
+- Python 3.10+ with pip
+- [Neon Console](https://console.neon.tech) account for PostgreSQL database
+
+---
+
+### 1. Repository Setup
+
+```bash
+git clone https://github.com/zoerlyx/road-sentry.git
+cd road-sentry
+```
+
+---
+
+### 2. AI-Service Setup(Python Flask)
+
+Navigate to the ai-service directory, set up the virtual environment, install dependencies, and run the service:
+
+```bash
+cd backend/ai-service
+
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On Linux/macOS:
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run AI Flask Server
+python app.py
+
+```
+
+AI Service runs on http://127.0.0.1:5001
+
+---
+
+### 3. Backend API Setup (Node.js Express)
+
+Open a new terminal in the backend folder:
+
+```bash
+cd backend
+npm install
+
+```
+
+Create a .env file inside the backend directory:
+
+```bash
+PORT=5000
+DATABASE_URL=your_neon_postgres_connection_string
+AI_SERVICE_URL= http://127.0.0.1:5001
+
+```
+
+Run the backend:
+
+```bash
+npm run dev
+# or
+npm start
+
+```
+
+---
+
+### 4. Frontend Setup (React Vite)
+
+Open a new terminal in the root folder:
+
+```bash
+npm install
+
+```
+
+In root, create a .env file (if needed):
+
+```bash
+VITE_API_BASE_URL=http://localhost:5000/api
+
+```
+
+Run the frontend application:
+
+```bash
+npm run dev
+
+```
+
+Open your browser at http://localhost:5173.
 
 ---
