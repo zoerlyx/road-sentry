@@ -78,5 +78,60 @@ The public can upload photos of damaged roads along with their corresponding GPS
 
 ---
 
+## 📂 Project Directory Structure
+
+```text
+road-sentry/
+├── backend/
+│   ├── ai-service/                 # Python Flask YOLOv8 Inference Service
+│   │   ├── uploads/annotated/      # Generated AI-annotated photos
+│   │   ├── app.py                  # /predict endpoint & score calculation
+│   │   ├── best.pt                 # YOLOv8 model weights
+│   │   └── requirements.txt        # Python dependencies
+│   ├── controllers/
+│   │   └── reportControllers.js    # Business logic, CRUD, stats calculation
+│   ├── routes/
+│   │   └── report.routes.js        # REST API endpoint routes
+│   ├── uploads/                    # Original uploaded photos from public form
+│   ├── db.js                       # Neon PostgreSQL pool connection
+│   ├── index.js                    # Express.js server entry point
+│   ├── package.json
+│   └── .env
+├── src/
+│   ├── app/                        # Routing & App Root
+│   ├── components/                 # Global UI components (Navbar, Footer, Toast, UI Glass)
+│   ├── features/
+│   │   ├── admin/                  # Admin Dashboard Feature
+│   │   │   ├── components/         # MapView, StatsCard, ReportsTable, Detail Modal, FilterBar, Urgent
+│   │   │   ├── constants/          # reportStatus.js
+│   │   │   ├── hooks/              # useAdminReports.js
+│   │   │   ├── pages/              # AdminDashboardPage.jsx, AdminReportsPage.jsx
+│   │   │   ├── services/           # admin.service.js
+│   │   │   └── styles/             # adminDashboard.css
+│   │   └── report/                 # Public Reporting Feature
+│   │       ├── components/         # FormCard, ReportStatus, StatsSection, MapPreview
+│   │       ├── constants/          # reportStatus.js
+│   │       ├── hooks/              # useGeolocation.jsx, useReportSubmission.jsx
+│   │       ├── pages/              # ReportPage.jsx
+│   │       ├── services/           # report.service.js
+│   │       └── validations/        # report.schema.js
+│   ├── mocks/                      # Mock data for local testing (mockData.js, reportData.js)
+│   ├── styles/                     # Global CSS & Tailwind styling (globals.css)
+│   ├── App.jsx
+│   └── main.jsx
+├── public/                         # Public static assets & screenshots
+│   └── screenshots/
+├── .env.example                    # Example environment variables template
+├── .gitignore
+├── index.html
+├── package.json
+├── postcss.config
+├── README.md
+└── vercel.json
+
+```
+
+---
+
 
 ---
