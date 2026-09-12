@@ -44,4 +44,15 @@ The public can upload photos of damaged roads along with their corresponding GPS
 
 ```
 
+### Main Workflow
+1. **Reporter Input**: Users fill out a description form, provide coordinates (automated GPS or Nominatim address search), and upload a damage photo.
+2. **AI Gatekeeper & Detection**: The backend forwards the photo to the AI Service (Flask :5001). The YOLOv8 model filters out non-road images, flags potholes/cracks, and computes a priority_score (0–100).
+3. **Structured Storage**: Data is saved to Neon DB with the following mapping:
+   - Score ≥ 80 → Priority urgent
+   - Score ≥ 40 → Priority medium
+   - Score < 40 → Priority low
+4. **Monitoring & Dispatching**: The Admin Dashboard displays an interactive GIS map, filtered report tables, and real-time metric cards. Admins can update the maintenance status directly (pending → in_progress → resolved).
+
+---
+
 ---
