@@ -235,3 +235,6 @@ npm run dev
 Open your browser at http://localhost:5173.
 
 ---
+
+## 🛡️ License & Copyright
+Developed for precise and transparent public infrastructure monitoring and maintenance.
