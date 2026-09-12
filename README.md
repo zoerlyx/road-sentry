@@ -1,6 +1,13 @@
 # 🛣️ Road Sentry
 
-
+![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vite](https://img.shields.io/badge/Vite-6-646CFF?style=for-the-badge&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-Express-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Python](https://img.shields.io/badge/Python-Flask-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![YOLOv8](https://img.shields.io/badge/YOLOv8-Computer_Vision-00FFFFFF?style=for-the-badge)
+![PostgreSQL](https://img.shields.io/badge/Neon_PostgreSQL-Serverless-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)
+![Leaflet](https://img.shields.io/badge/Leaflet-GIS_Map-199900?style=for-the-badge&logo=leaflet&logoColor=white)
 
 >**Integrated Platform for Public Road Infrastructure Reporting, Automated Computer Vision-Based Damage Detection (YOLOv8), and GIS-Based Management.**
 
@@ -11,6 +18,15 @@ The public can upload photos of damaged roads along with their corresponding GPS
 > This project was developed collaboratively as part of a Coding Camp program. In the initial version, the system established a foundational concept but faced backend stability issues and an unoptimized user interface. I took ownership of the end-to-end refactoring process—overhauling the backend architecture to ensure system reliability, redesigning the UI/UX for an intuitive and standardized experience, and retraining the AI model until the application became fully stable and production-ready.
 
 ---
+
+## 📸 Gallery
+
+| Main Display | Feature & Analitics |
+| :---: | :---: |
+| ![Landing Page](public/screenshots/landing.png)<br><sub>**Landing Page**</sub> | ![AI Detection](public/screenshots/ai-detected.png)<br><sub>**AI Automation Detection (YOLOv8)**</sub> |
+| ![Report Form 1A](public/screenshots/form-1a.png)<br><sub>**Report Form (1)**</sub> | ![GIS Report Map](public/screenshots/report-map.png)<br><sub>**GIS Map**</sub> |
+| ![Report Form 1B](public/screenshots/form-1b.png)<br><sub>**Report Form (2)**</sub> | ![Admin Dashboard](public/screenshots/admin-dashboard.png)<br><sub>**Dashboard Administrator**</sub> |
+
 ---
 
 ## 🏛️ System Architecture & Workflow
@@ -84,50 +100,37 @@ The public can upload photos of damaged roads along with their corresponding GPS
 road-sentry/
 ├── backend/
 │   ├── ai-service/                 # Python Flask YOLOv8 Inference Service
-│   │   ├── uploads/annotated/      # Generated AI-annotated photos
-│   │   ├── app.py                  # /predict endpoint & score calculation
+│   │   ├── app.py                  # predict endpoint & score calculation
 │   │   ├── best.pt                 # YOLOv8 model weights
 │   │   └── requirements.txt        # Python dependencies
 │   ├── controllers/
 │   │   └── reportControllers.js    # Business logic, CRUD, stats calculation
 │   ├── routes/
 │   │   └── report.routes.js        # REST API endpoint routes
-│   ├── uploads/                    # Original uploaded photos from public form
+│   ├── uploads/                    # Storage folder for original & AI-annotated photos
 │   ├── db.js                       # Neon PostgreSQL pool connection
 │   ├── index.js                    # Express.js server entry point
 │   ├── package.json
 │   └── .env
 ├── src/
 │   ├── app/                        # Routing & App Root
-│   ├── components/                 # Global UI components (Navbar, Footer, Toast, UI Glass)
+│   ├── components/                 # Global UI components (Navbar, Footer, Toast)
 │   ├── features/
 │   │   ├── admin/                  # Admin Dashboard Feature
-│   │   │   ├── components/         # MapView, StatsCard, ReportsTable, Detail Modal, FilterBar, Urgent
-│   │   │   ├── constants/          # reportStatus.js
-│   │   │   ├── hooks/              # useAdminReports.js
-│   │   │   ├── pages/              # AdminDashboardPage.jsx, AdminReportsPage.jsx
-│   │   │   ├── services/           # admin.service.js
-│   │   │   └── styles/             # adminDashboard.css
+│   │   │   ├── components/         # MapView, StatsCard, ReportsTable, Detail Modal
+│   │   │   ├── hooks/              # useAdminReports
+│   │   │   ├── pages/              # AdminDashboardPage
+│   │   │   └── services/           # admin.service.js
 │   │   └── report/                 # Public Reporting Feature
 │   │       ├── components/         # FormCard, ReportStatus, StatsSection, MapPreview
-│   │       ├── constants/          # reportStatus.js
-│   │       ├── hooks/              # useGeolocation.jsx, useReportSubmission.jsx
-│   │       ├── pages/              # ReportPage.jsx
-│   │       ├── services/           # report.service.js
-│   │       └── validations/        # report.schema.js
-│   ├── mocks/                      # Mock data for local testing (mockData.js, reportData.js)
-│   ├── styles/                     # Global CSS & Tailwind styling (globals.css)
-│   ├── App.jsx
-│   └── main.jsx
-├── public/                         # Public static assets & screenshots
-│   └── screenshots/
-├── .env.example                    # Example environment variables template
-├── .gitignore
-├── index.html
-├── package.json
-├── postcss.config
-├── README.md
-└── vercel.json
+│   │       ├── hooks/              # useReportSubmission, useGeolocation
+│   │       ├── pages/              # ReportPage
+│   │       └── services/           # report.service.js
+│   ├── styles/                     # Global CSS & Tailwind styling
+│   └── services/                   # Axios client configuration
+├── public/                         # Public static assets
+├── vercel.json                     # SPA rewrite configuration for Vercel
+└── package.json
 
 ```
 
